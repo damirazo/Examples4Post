@@ -5,7 +5,7 @@ from django.views.generic import ListView
 from django.views.generic.list import MultipleObjectMixin
 from models import Post
 
-class Posts(ListView, MultipleObjectMixin):
+class Posts(ListView):
     """
     Список всех доступных статей
     """
