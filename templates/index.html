@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Просмотр списка статей{% endblock %}
+
+{% block styles %}
+    <style type="text/css">
+        .post{
+            margin: 5px 0 20px 0;
+        }
+        .post h6{
+            font-family: "Verdana", sans-serif;
+            font-size: 20px;
+            margin: 5px;
+        }
+        .post p {
+            margin: 5px;
+            border-top: 1px solid #444444;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% for post in object_list %}
+        <div class="post">
+            <h6><a href="/post/{{ post.pk }}/">{{ post.name }}</a></h6>
+            <div>{{ post.text }}</div>
+            <p>{{ post.author.username }}, {{ post.created_at|date:"d.m.Y в H:i" }} ({{ post.rating }})</p>
+        </div>
+    {% empty %}
+        <p>Статей не обнаружено :(</p>
+    {% endfor %}
+
+    {% if paginator.num_pages > 1 %}
+        {% if page_obj.has_previous %}
+            <a href="{% if page_obj.previous_page_number == 1 %}/{% else %}/page{{ page_obj.previous_page_number }}/{% endif %}">&larr;</a>
+        {% endif %}
+        Страница {{ page_obj.number }} из {{ paginator.num_pages }}
+        {% if page_obj.has_next %}
+            <a href="/page{{ page_obj.next_page_number }}/">&rarr;</a>
+        {% endif %}
+    {% endif %}
+{% endblock %}
